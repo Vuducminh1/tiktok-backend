@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class AuthRequest {
+public class RegisterRequest {
 
     @NotBlank(message = "Username không được trống")
     @Size(min = 3, max = 50, message = "Username phải từ 3 đến 50 ký tự")
