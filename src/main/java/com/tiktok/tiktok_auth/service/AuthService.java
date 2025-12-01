@@ -1,6 +1,7 @@
 package com.tiktok.tiktok_auth.service;
 
-import com.tiktok.tiktok_auth.dto.request.AuthRequest;
+import com.tiktok.tiktok_auth.dto.request.LoginRequest;
+import com.tiktok.tiktok_auth.dto.request.RegisterRequest;
 import com.tiktok.tiktok_auth.dto.response.AuthResponse;
 import com.tiktok.tiktok_auth.entity.Role;
 import com.tiktok.tiktok_auth.entity.User;
@@ -24,7 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public void register(AuthRequest request) {
+    public void register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
@@ -34,13 +35,14 @@ public class AuthService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .confirmPassword(passwordEncoder.encode(request.getConfirmPassword()))
+                .fullChannelQuota(10)
                 .role(Role.USER)
                 .build();
 
         userRepository.save(user);
     }
 
-    public AuthResponse login(AuthRequest request) {
+    public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 

@@ -32,6 +32,15 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     @Builder.Default
     private Role role = Role.USER;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private Status status = Status.ACTIVE;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer fullChannelQuota = 0;
 }
 
 
